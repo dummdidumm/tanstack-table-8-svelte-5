@@ -1,55 +1,53 @@
-import { RowData, createTable, TableOptions, TableOptionsResolved } from '@tanstack/table-core';
-import Placeholder from './placeholder';
-import type { ComponentType } from 'svelte';
-import { SvelteComponent } from 'svelte/internal';
-import { readable, writable, derived, Readable, get } from 'svelte/store';
-import { renderComponent } from './render-component';
-
-export { renderComponent } from './render-component';
+import {
+	type RowData,
+	createTable,
+	type TableOptions,
+	type TableOptionsResolved
+} from '@tanstack/table-core';
+import Placeholder from './placeholder.svelte';
+import { type Component, type ComponentProps } from 'svelte';
+import { readable, writable, derived, type Readable, get } from 'svelte/store';
 
 export * from '@tanstack/table-core';
 
-function isSvelteServerComponent(component: any) {
-	return (
-		typeof component === 'object' &&
-		typeof component.$$render === 'function' &&
-		typeof component.render === 'function'
-	);
-}
-
-function isSvelteClientComponent(component: any) {
-	let isHMR = '__SVELTE_HMR' in window;
-
-	return (
-		component.prototype instanceof SvelteComponent ||
-		(isHMR && component.name?.startsWith('Proxy<') && component.name?.endsWith('>'))
-	);
-}
-
-function isSvelteComponent(component: any) {
-	if (typeof document === 'undefined') {
-		return isSvelteServerComponent(component);
-	} else {
-		return isSvelteClientComponent(component);
-	}
+/**
+ * A helper function to help create cells from Svelte components through ColumnDef's `cell` and `header` properties.
+ * @param component A Svelte component
+ * @param props The props to pass to `component`
+ * @returns A `RenderComponentConfig` object that helps svelte-table know how to render the header/cell component.
+ * @example
+ * ```ts
+ * // +page.svelte
+ * const defaultColumns = [
+ *   columnHelper.accessor('name', {
+ *     header: header => renderComponent(SortHeader, { label: 'Name', header }),
+ *   }),
+ *   columnHelper.accessor('state', {
+ *     header: header => renderComponent(SortHeader, { label: 'State', header }),
+ *   }),
+ * ]
+ * ```
+ * @see {@link https://tanstack.com/table/latest/docs/guide/column-defs}
+ */
+export function renderComponent<TComponent extends Component<any>>(
+	Comp: TComponent,
+	props: ComponentProps<TComponent>
+): any {
+	return (anchor: any) => Comp(anchor, props);
 }
 
 function wrapInPlaceholder(content: any) {
 	return renderComponent(Placeholder, { content });
 }
 
-export function flexRender(component: any, props: any): ComponentType | null {
+export function flexRender(component: any, props: any): Component | null {
 	if (!component) return null;
-
-	if (isSvelteComponent(component)) {
-		return renderComponent(component, props);
-	}
 
 	if (typeof component === 'function') {
 		const result = component(props);
 		if (result === null || result === undefined) return null;
 
-		if (isSvelteComponent(result)) {
+		if (typeof result === 'function') {
 			return renderComponent(result, props);
 		}
 
