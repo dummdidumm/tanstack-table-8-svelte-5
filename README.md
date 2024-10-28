@@ -12,7 +12,7 @@ If you're sure that only your app and none of your dependencies depends on `@tan
 {
   "dependencies": {
 -    "@tanstack/svelte-table": "^8"
-+    "@tanstack/svelte-table": "npm:tanstack-table-8-svelte-5"
++    "@tanstack/svelte-table": "npm:tanstack-table-8-svelte-5@^0.1"
   }
 }
 ```
@@ -24,7 +24,7 @@ Else use you package manager's override mechanism to ensure that dependencies of
 ```json
 {
 	"overrides": {
-		"@tanstack/svelte-table": "npm:tanstack-table-8-svelte-5"
+		"@tanstack/svelte-table": "npm:tanstack-table-8-svelte-5@^0.1"
 	}
 }
 ```
@@ -35,7 +35,7 @@ Else use you package manager's override mechanism to ensure that dependencies of
 {
 	"pnpm": {
 		"overrides": {
-			"@tanstack/svelte-table": "npm:tanstack-table-8-svelte-5"
+			"@tanstack/svelte-table": "npm:tanstack-table-8-svelte-5@^0.1"
 		}
 	}
 }

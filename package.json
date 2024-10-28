@@ -1,6 +1,6 @@
 {
 	"name": "tanstack-table-8-svelte-5",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"license": "MIT",
 	"scripts": {
 		"dev": "vite dev",
