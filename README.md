@@ -43,11 +43,11 @@ Else use you package manager's override mechanism to ensure that dependencies of
 
 ## Caveat
 
-This drop-in package works exactly like the original version, except when you want to provide custom components for rendering. You need to wrap those with `createComponent`:
+This drop-in package works exactly like the original version, except when you want to provide custom components for rendering. You need to wrap those with `renderComponent`:
 
 ```ts
 import SomeCell from './SomeCell.svelte';
-import { createComponent } from '@tanstack/svelte-table';
+import { renderComponent } from '@tanstack/svelte-table';
 
 const defaultColumns: ColumnDef<Person>[] = [
 	{
@@ -55,7 +55,7 @@ const defaultColumns: ColumnDef<Person>[] = [
 		// previously you were able to do this to render a custom component:
 		// cell: SomeCell,
 		// now you have to do this instead:
-		cell: (props) => createComponent(SomeCell, props)
+		cell: (props) => renderComponent(SomeCell, props)
 	}
 ];
 ```
