@@ -43,7 +43,7 @@ Else use you package manager's override mechanism to ensure that dependencies of
 
 ## Caveat
 
-This drop-in package works exactly like the original version, except when you want to provide custom components for rendering. You need to wrap those with `createComponent`:
+This drop-in package works exactly like the original version, except when you want to provide custom components for rendering. You need to wrap those with `renderComponent`:
 
 ```ts
 import SomeCell from './SomeCell.svelte';
